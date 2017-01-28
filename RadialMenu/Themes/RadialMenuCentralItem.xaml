@@ -43,7 +43,7 @@
             <Setter.Value>
 
                 <ControlTemplate TargetType="Controls:RadialMenuCentralItem">
-                    <Grid>
+                    <Grid Focusable="False">
 
                         <!-- Rounded button -->
                         <Ellipse
@@ -52,7 +52,8 @@
                             Fill="{TemplateBinding Background}"/>
 
                         <!-- Content -->
-                        <ContentPresenter
+                        <ContentPresenter 
+                            Focusable="False"
                             Content="{TemplateBinding Content}"
                             HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"/>

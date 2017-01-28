@@ -262,18 +262,20 @@ namespace RadialMenu.Controls
 
         private static void UpdateItemRendering(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            RadialMenuItem item = d as RadialMenuItem;
-            if (item != null)
+            var item = d as RadialMenuItem;
+            if (item == null)
             {
-                var angleDelta = 360.0 / item.Count;
-                var angleShift = item.HalfShifted ? -angleDelta / 2 : 0;
-                var startAngle = angleDelta * item.Index + angleShift;
-                var rotation = startAngle + angleDelta / 2;
-
-                item.AngleDelta = angleDelta;
-                item.StartAngle = startAngle;
-                item.Rotation = rotation;
+                return;
             }
+
+            var angleDelta = 360.0 / item.Count;
+            var angleShift = item.HalfShifted ? -angleDelta / 2 : 0;
+            var startAngle = angleDelta * item.Index + angleShift;
+            var rotation = startAngle + angleDelta / 2;
+
+            item.AngleDelta = angleDelta;
+            item.StartAngle = startAngle;
+            item.Rotation = rotation;
         }
     }
 }

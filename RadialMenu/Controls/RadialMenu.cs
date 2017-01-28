@@ -1,78 +1,91 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace RadialMenu.Controls
 {
     /// <summary>
-    /// Interaction logic for RadialMenu.xaml
+    ///     Interaction logic for RadialMenu.xaml
     /// </summary>
     public class RadialMenu : ContentControl
     {
         public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpen", typeof(bool), typeof(RadialMenu),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        public bool IsOpen
-        {
-            get { return (bool)GetValue(IsOpenProperty); }
-            set { SetValue(IsOpenProperty, value); }
-        }
+            DependencyProperty.Register(
+                "IsOpen", typeof(bool), typeof(RadialMenu),
+                new FrameworkPropertyMetadata(
+                    false,
+                    FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty HalfShiftedItemsProperty =
-            DependencyProperty.Register("HalfShiftedItems", typeof(bool), typeof(RadialMenu),
-            new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        public bool HalfShiftedItems
-        {
-            get { return (bool)GetValue(HalfShiftedItemsProperty); }
-            set { SetValue(HalfShiftedItemsProperty, value); }
-        }
+            DependencyProperty.Register(
+                "HalfShiftedItems", typeof(bool), typeof(RadialMenu),
+                new FrameworkPropertyMetadata(
+                    false,
+                    FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         public static readonly DependencyProperty CentralItemProperty =
-            DependencyProperty.Register("CentralItem", typeof(RadialMenuCentralItem), typeof(RadialMenu),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
+            DependencyProperty.Register(
+                "CentralItem", typeof(RadialMenuCentralItem), typeof(RadialMenu),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        public RadialMenuCentralItem CentralItem
-        {
-            get { return (RadialMenuCentralItem)GetValue(CentralItemProperty); }
-            set { SetValue(CentralItemProperty, value); }
-        }
-
-        public new static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(List<RadialMenuItem>), typeof(RadialMenu),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        public new List<RadialMenuItem> Content
-        {
-            get { return (List<RadialMenuItem>)GetValue(ContentProperty); }
-            set { SetValue(ContentProperty, value); }
-        }
-
-        public List<RadialMenuItem> Items
-        {
-            get { return Content; }
-            set { Content = value; }
-        }
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register(
+                "ItemsSource",
+                typeof(IList<RadialMenuItem>), typeof(RadialMenu),
+                new FrameworkPropertyMetadata(
+                    null,
+                    FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         static RadialMenu()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(RadialMenu), new FrameworkPropertyMetadata(typeof(RadialMenu)));
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(RadialMenu), new FrameworkPropertyMetadata(typeof(RadialMenu)));
+        }
+
+        public bool IsOpen
+        {
+            get { return (bool) GetValue(IsOpenProperty); }
+            set { SetValue(IsOpenProperty, value); }
+        }
+
+        public bool HalfShiftedItems
+        {
+            get { return (bool) GetValue(HalfShiftedItemsProperty); }
+            set { SetValue(HalfShiftedItemsProperty, value); }
+        }
+
+        public RadialMenuCentralItem CentralItem
+        {
+            get { return (RadialMenuCentralItem) GetValue(CentralItemProperty); }
+            set { SetValue(CentralItemProperty, value); }
+        }
+
+        public IList<RadialMenuItem> ItemsSource
+        {
+            get { return (IList<RadialMenuItem>) GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
         }
 
         public override void BeginInit()
         {
-            Content = new List<RadialMenuItem>();
+            ItemsSource = new List<RadialMenuItem>();
             base.BeginInit();
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            for (int i = 0, count = Items.Count; i < count; i++)
+            if (ItemsSource != null)
             {
-                Items[i].Index = i;
-                Items[i].Count = count;
-                Items[i].HalfShifted = HalfShiftedItems;
+                for (int i = 0, count = ItemsSource.Count; i < count; i++)
+                {
+                    ItemsSource[i].Index = i;
+                    ItemsSource[i].Count = count;
+                    ItemsSource[i].HalfShifted = HalfShiftedItems;
+                }
             }
             return base.ArrangeOverride(arrangeSize);
         }

@@ -88,7 +88,7 @@
                         <Ellipse Fill="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}"/>
 
                         <!-- Content repitition (for items around) -->
-                        <ItemsControl ItemsSource="{TemplateBinding Content}">
+                        <ItemsControl ItemsSource="{TemplateBinding ItemsSource}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <Grid/>

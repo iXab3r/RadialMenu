@@ -17,28 +17,8 @@
     </Style>
 
     <Style TargetType="Controls:RadialMenuItem">
-
-        <Style.Triggers>
-
-            <!-- RadialMenuItem style when overed -->
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="EdgeBackground" Value="#999"/>
-                <Setter Property="Panel.ZIndex" Value="10"/>
-            </Trigger>
-
-            <!-- RadialMenuItem style when pressed -->
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="EdgeBackground" Value="#666"/>
-                <Setter Property="Panel.ZIndex" Value="10"/>
-            </Trigger>
-
-            <!-- RadialMenuItem style when disabled -->
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="EdgeBackground" Value="#F3F3F3"/>
-                <Setter Property="Foreground" Value="#AFAFAF"/>
-            </Trigger>
-
-        </Style.Triggers>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
 
         <!-- Default RadialMenuItem style -->
         <Setter Property="Width" Value="300"/>
@@ -68,7 +48,7 @@
                     <Canvas Panel.ZIndex="{TemplateBinding Panel.ZIndex}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
 
                         <!-- Main pie piece -->
-                        <Controls:PieShape
+                        <Controls:PieShape 
                             CenterX="{TemplateBinding CenterX}"
                             CenterY="{TemplateBinding CenterY}"
                             Padding="{TemplateBinding Padding}"
@@ -81,7 +61,7 @@
                             AngleDelta="{TemplateBinding AngleDelta}"/>
 
                         <!-- Edge pie piece -->
-                        <Controls:PieShape
+                        <Controls:PieShape 
                             CenterX="{TemplateBinding CenterX}"
                             CenterY="{TemplateBinding CenterY}"
                             Padding="{TemplateBinding EdgePadding}"
@@ -94,7 +74,7 @@
                             AngleDelta="{TemplateBinding AngleDelta}"/>
 
                         <!-- Edge content (arrow) -->
-                        <Canvas>
+                        <Canvas Focusable="False">
 
                             <Canvas.RenderTransform>
                                 <!-- See : http://stackoverflow.com/a/3190907/2837434 -->
@@ -105,7 +85,7 @@
                                     CenterY="{Binding CenterY, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Canvas.RenderTransform>
 
-                            <Rectangle Width="{TemplateBinding ArrowWidth}" Height="{TemplateBinding ArrowHeight}">
+                            <Rectangle Width="{TemplateBinding ArrowWidth}" Height="{TemplateBinding ArrowHeight}" Focusable="False">
 
                                 <Canvas.Left>
                                     <MultiBinding Converter="{StaticResource RadialMenuItemToArrowPosition}" ConverterParameter="X">
@@ -145,7 +125,10 @@
                         </Canvas>
 
                         <!-- Main content -->
-                        <ContentControl Content="{TemplateBinding Content}">
+                        <ContentControl Content="{TemplateBinding Content}" 
+                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        IsTabStop="False" Focusable="False">
 
                             <Canvas.Left>
                                 <MultiBinding Converter="{StaticResource RadialMenuItemToContentPosition}" ConverterParameter="X">
@@ -175,7 +158,31 @@
                 </ControlTemplate>
 
             </Setter.Value>
+
         </Setter>
+
+
+        <Style.Triggers>
+
+            <!-- RadialMenuItem style when overed -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="EdgeBackground" Value="#999"/>
+                <Setter Property="Panel.ZIndex" Value="10"/>
+            </Trigger>
+
+            <!-- RadialMenuItem style when pressed -->
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="EdgeBackground" Value="#666"/>
+                <Setter Property="Panel.ZIndex" Value="10"/>
+            </Trigger>
+
+            <!-- RadialMenuItem style when disabled -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="EdgeBackground" Value="#F3F3F3"/>
+                <Setter Property="Foreground" Value="#AFAFAF"/>
+            </Trigger>
+
+        </Style.Triggers>
 
     </Style>
 
